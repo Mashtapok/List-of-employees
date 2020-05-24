@@ -9,11 +9,9 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import defaultPhoto from "../assets/defaultPhoto.png";
 import {Field, Form, Formik, useField} from "formik";
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
-import {removeWorker} from "../redux/reducers/tableReducer";
 
 const MyField = ({label,...props}) => {
     const [field, meta] = useField(props);
@@ -50,7 +48,8 @@ export function EditModal({DefaultSchema, useStylesModal, editWorker, editableWo
                         }
                     }
                     onSubmit={(data) => {
-                        updateWorkerInform(data);
+                        /*workersAPI.updateWorker(data);*/
+                        updateWorkerInform(data)
                         handleClose();
                     }}
                     validationSchema={DefaultSchema}

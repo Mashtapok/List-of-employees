@@ -7,7 +7,7 @@ import {store} from "./redux/store";
 
 ReactDOM.render(
     <Provider store={store}>
-            <CssBaseline/>
+
             <App/>
     </Provider>,
     document.querySelector('#root'),

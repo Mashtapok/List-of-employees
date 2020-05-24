@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,6 +20,10 @@ const useStyles = makeStyles({
 
 export function WorkersTable({searchingWorkers, ...props}) {
     const classes = useStyles();
+
+    useEffect(()=> {
+        props.requestWorkersThunk();
+    }, [searchingWorkers]);
 
     return (
         <TableContainer component={Paper}>
@@ -49,8 +53,7 @@ export function WorkersTable({searchingWorkers, ...props}) {
                                     <TableCell>{row.birthday}</TableCell>
                                     <TableCell>{row.age}</TableCell>
                                     <TableCell>{row.position}</TableCell>
-                                    <TableCell><Checkbox onClick={(event) => props.handleToggle(event, row.id)}
-                                                         checked={row.remoteWork}/></TableCell>
+                                    <TableCell><Checkbox checked={row.remoteWork}/></TableCell>
                                     <TableCell>{`г.${row.city}, ул.${row.street}, д.${row.house} ${flatString}`}</TableCell>
                                 </TableRow>
                             )
