@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export function Search({keywordChange}) {
+export function Search({keywordChange, ...props}) {
     const classes = useStyles();
 
     return (
@@ -19,7 +19,7 @@ export function Search({keywordChange}) {
             <TextField placeholder="Имя или фамилия"
                        id="standard-search" label="Поиск"
                        type="search"
-                       onChange={(event) => keywordChange(event)} />
+                       onChange={(event) => keywordChange(event)}/>
         </form>
     );
 }

@@ -6,10 +6,12 @@ const ADD_WORKER = "table/ADD_WORKER";
 const EDIT_WORKER = "table/EDIT_WORKER";
 const UPDATE_WORKER = "table/UPDATE_WORKER";
 const SET_WORKERS = "table/SET_WORKERS";
+const WORKERS_IS_LOADING = "table/WORKERS_IS_LOADING";
 
 const initialState = {
     workers: [],
     editableWorker: {},
+    workersIsLoading : false,
 };
 
 function getCurrentAge(date) {
@@ -39,6 +41,8 @@ export const tableReducer = (state = initialState, action) => {
             };
         case SET_WORKERS:
             return  {...state, workers: action.payload};
+        case WORKERS_IS_LOADING:
+            return {...state, workersIsLoading: action.payload};
         default:
             return state;
 
@@ -50,6 +54,7 @@ export const removeWorker = (id) => ({type: REMOVE_WORKER, payload: id});
 export const setWorkersSuccess = (workers) => ({type: SET_WORKERS, payload: workers});
 export const editWorker = (id) => ({type: EDIT_WORKER, payload: id});
 export const updateWorker = (formData) => ({type: UPDATE_WORKER, payload: formData});
+export const workersIsLoading = (isLoading) => ({type: WORKERS_IS_LOADING, payload: isLoading});
 
 // ThunkCreators
 export const addWorkerThunk = (worker) => async dispatch => {
@@ -72,6 +77,7 @@ export const addWorkerThunk = (worker) => async dispatch => {
     requestWorkersThunk();
 };
 export const requestWorkersThunk = () => async dispatch => {
+    dispatch(workersIsLoading(true));
 const workers = [];
     let data = await workersAPI.requestUsers();
     for(let worker in data) {
@@ -79,5 +85,7 @@ const workers = [];
             workers.push(data[worker]);
         }
     }
-    dispatch(setWorkersSuccess(workers))
+    dispatch(setWorkersSuccess(workers));
+    dispatch(workersIsLoading(false));
+    return workers
 };

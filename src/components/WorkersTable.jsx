@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from "@material-ui/core/Checkbox";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles({
     table: {
@@ -15,15 +16,18 @@ const useStyles = makeStyles({
     },
     row: {
         cursor: "pointer"
+    },
+    preloader: {
+        margin: "50%"
     }
 });
 
-export function WorkersTable({searchingWorkers, ...props}) {
+export function WorkersTable({searchedWorkers, workersIsLoading, ...props}) {
     const classes = useStyles();
 
-    useEffect(()=> {
+    useEffect(() => {
         props.requestWorkersThunk();
-    }, [searchingWorkers]);
+    }, []);
 
     return (
         <TableContainer component={Paper}>
@@ -41,23 +45,24 @@ export function WorkersTable({searchingWorkers, ...props}) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {searchingWorkers.map((row) => {
+                    {workersIsLoading ? <CircularProgress className={classes.preloader}/> : null}
+                    {searchedWorkers.map((row) => {
                         let flatString = row.flat ? `, кв.${row.flat}` : "";
-                            return (
-                                <TableRow className={classes.row} key={row.id} hover
-                                          selected={row.id === props.selected.id ? props.selected.isSelected : false}
-                                          onClick={() => props.handleClick(row.id)}>
-                                    <TableCell><img style={{maxWidth: "100px"}} src={row.photo}/></TableCell>
-                                    <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.surname}</TableCell>
-                                    <TableCell>{row.birthday}</TableCell>
-                                    <TableCell>{row.age}</TableCell>
-                                    <TableCell>{row.position}</TableCell>
-                                    <TableCell><Checkbox checked={row.remoteWork}/></TableCell>
-                                    <TableCell>{`г.${row.city}, ул.${row.street}, д.${row.house} ${flatString}`}</TableCell>
-                                </TableRow>
-                            )
-                        })}
+                        return (
+                            <TableRow className={classes.row} key={row.id} hover
+                                      selected={row.id === props.selected.id ? props.selected.isSelected : false}
+                                      onClick={() => props.handleClick(row.id)}>
+                                <TableCell><img style={{maxWidth: "100px"}} src={row.photo}/></TableCell>
+                                <TableCell>{row.name}</TableCell>
+                                <TableCell>{row.surname}</TableCell>
+                                <TableCell>{row.birthday}</TableCell>
+                                <TableCell>{row.age}</TableCell>
+                                <TableCell>{row.position}</TableCell>
+                                <TableCell><Checkbox checked={row.remoteWork}/></TableCell>
+                                <TableCell>{`г.${row.city}, ул.${row.street}, д.${row.house} ${flatString}`}</TableCell>
+                            </TableRow>
+                        )
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>

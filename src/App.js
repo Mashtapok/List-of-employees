@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useDebugValue, useEffect, useState} from 'react';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import {Header} from "./components/Header";
@@ -9,7 +9,7 @@ import {
     addWorkerThunk,
     editWorker,
     removeWorker,
-    requestWorkersThunk,
+    requestWorkersThunk, setWorkersSuccess,
     updateWorker
 } from "./redux/reducers/tableReducer";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
@@ -19,6 +19,7 @@ function App(props) {
     const [darkMode, setDarkMode] = useState(false);
     const [selected, setSelected] = React.useState({id: null, isSelected: false});
     const [keyword, setKeyword] = React.useState(null);
+
     const theme = createMuiTheme({
         palette: {
             type: darkMode ? 'dark' : 'light'
@@ -52,10 +53,11 @@ function App(props) {
         props.updateWorker(formData);
     };
 
-    const searchingWorkers = props.table.workers.filter(worker => {
-            if (keyword == null)
+    const searchedWorkers = props.table.workers.filter(worker => {
+            console.log("search");
+            if (keyword == null) {
                 return worker;
-            else if (worker.name.toLowerCase().includes(keyword) || worker.surname.toLowerCase().includes(keyword)) {
+            } else if (worker.name.toLowerCase().includes(keyword) || worker.surname.toLowerCase().includes(keyword)) {
                 return worker
             }
         }
@@ -63,8 +65,7 @@ function App(props) {
 
     const keywordChange = (event) => {
         if (event.target.value) {
-            setKeyword(event.target.value.toLowerCase())
-            console.log("change");
+            setKeyword(event.target.value.toLowerCase());
         } else setKeyword(null)
     };
 
@@ -75,12 +76,14 @@ function App(props) {
                 <Box my={4}>
                     <Search keywordChange={keywordChange}/>
                     <Header darkMode={darkMode} setDarkMode={setDarkMode}
-                        isSelected={selected.isSelected}
+                            isSelected={selected.isSelected}
                             editableWorker={props.table.editableWorker}
                             remove={remove} addNewWorker={addNewWorker}
                             editWorker={editWorker}
                             updateWorkerInform={updateWorkerInform}/>
-                    <WorkersTable searchingWorkers={searchingWorkers} selected={selected}
+
+                    <WorkersTable workersIsLoading={props.workersIsLoading} searchedWorkers={searchedWorkers}
+                                  selected={selected}
                                   handleClick={handleClick}
                                   requestWorkersThunk={props.requestWorkersThunk}/>
                 </Box>
@@ -90,7 +93,15 @@ function App(props) {
 }
 
 const mapStateToProps = (state) => ({
-    table: state.table
+    table: state.table,
+    workersIsLoading: state.table.workersIsLoading,
 });
 
-export default connect(mapStateToProps, {removeWorker,requestWorkersThunk, addWorkerThunk, editWorker, updateWorker})(App);
+export default connect(mapStateToProps, {
+    removeWorker,
+    requestWorkersThunk,
+    addWorkerThunk,
+    editWorker,
+    updateWorker,
+    setWorkersSuccess
+})(App);
