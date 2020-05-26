@@ -87,5 +87,4 @@ const workers = [];
     }
     dispatch(setWorkersSuccess(workers));
     dispatch(workersIsLoading(false));
-    return workers
 };
