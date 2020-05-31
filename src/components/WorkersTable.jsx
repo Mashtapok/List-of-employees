@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from "@material-ui/core/Checkbox";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import firebase from "../firebase";
 
 const useStyles = makeStyles({
     table: {
@@ -26,7 +27,13 @@ export function WorkersTable({searchedWorkers, workersIsLoading, ...props}) {
     const classes = useStyles();
 
     useEffect(() => {
-        props.requestWorkersThunk();
+/*        const fetchData = async () => {
+            const data = await firebase.firestore().collection('workers').get()
+            console.log(data);
+        }
+        fetchData()*/
+        props.requestWorkersThunk()
+
     }, []);
 
     return (

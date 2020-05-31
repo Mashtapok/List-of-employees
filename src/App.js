@@ -1,4 +1,4 @@
-import React, {useDebugValue, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import {Header} from "./components/Header";
@@ -14,6 +14,7 @@ import {
 } from "./redux/reducers/tableReducer";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import {getTable, getWorkersIsLoading} from "./redux/reducers/tableSelectors";
 
 function App(props) {
     const [darkMode, setDarkMode] = useState(false);
@@ -54,11 +55,10 @@ function App(props) {
     };
 
     const searchedWorkers = props.table.workers.filter(worker => {
-            console.log("search");
             if (keyword == null) {
-                return worker;
+                return true;
             } else if (worker.name.toLowerCase().includes(keyword) || worker.surname.toLowerCase().includes(keyword)) {
-                return worker
+                return true
             }
         }
     );
@@ -68,7 +68,6 @@ function App(props) {
             setKeyword(event.target.value.toLowerCase());
         } else setKeyword(null)
     };
-
     return (
         <ThemeProvider theme={theme}>
             <Container maxWidth="lg">
@@ -93,8 +92,8 @@ function App(props) {
 }
 
 const mapStateToProps = (state) => ({
-    table: state.table,
-    workersIsLoading: state.table.workersIsLoading,
+    table: getTable(state),
+    workersIsLoading: getWorkersIsLoading(state),
 });
 
 export default connect(mapStateToProps, {

@@ -1,5 +1,4 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -13,7 +12,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import defaultPhoto from "../assets/defaultPhoto.png";
 import {Field, Form, Formik, useField} from "formik";
 import SaveIcon from '@material-ui/icons/Save';
-import * as Yup from 'yup';
 import AddIcon from '@material-ui/icons/Add';
 
 const MyField = ({label,...props}) => {

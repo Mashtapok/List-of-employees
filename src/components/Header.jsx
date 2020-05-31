@@ -5,7 +5,7 @@ import {AddModal} from "./AddModal";
 import Box from "@material-ui/core/Box";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {EditModal} from "./EditModal";
-import * as Yup from "yup";
+import {string, object, date} from "yup";
 import Tooltip from "@material-ui/core/Tooltip";
 import Switch from "@material-ui/core/Switch";
 import Brightness3Icon from '@material-ui/icons/Brightness3';
@@ -14,15 +14,15 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import {withStyles} from "@material-ui/styles";
 
-const DefaultSchema = Yup.object().shape({
-    name: Yup.string().max(30, 'Это слишком длинно').required('Укажите имя'),
-    surname: Yup.string().max(30, 'Это слишком длинно').required('Укажите фамилию'),
-    birthday: Yup.date().required('Укажите дату рождения'),
-    position: Yup.string().required('Укажите должность'),
-    city: Yup.string().max(30, 'Это слишком длинно').required('Укажите город'),
-    street: Yup.string().max(30, 'Это слишком длинно').required('Укажите улицу'),
-    house: Yup.string().max(30, 'Это слишком длинно').required('Укажите номер дома'),
-    flat: Yup.string().max(30, 'Это слишком длинно')
+const DefaultSchema = object().shape({
+    name: string().max(30, 'Это слишком длинно').required('Укажите имя'),
+    surname: string().max(30, 'Это слишком длинно').required('Укажите фамилию'),
+    birthday: date().required('Укажите дату рождения'),
+    position: string().required('Укажите должность'),
+    city: string().max(30, 'Это слишком длинно').required('Укажите город'),
+    street: string().max(30, 'Это слишком длинно').required('Укажите улицу'),
+    house: string().max(30, 'Это слишком длинно').required('Укажите номер дома'),
+    flat: string().max(30, 'Это слишком длинно')
 });
 
 const DarkSwitch = withStyles((theme) => ({

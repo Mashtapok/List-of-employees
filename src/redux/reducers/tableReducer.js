@@ -11,7 +11,7 @@ const WORKERS_IS_LOADING = "table/WORKERS_IS_LOADING";
 const initialState = {
     workers: [],
     editableWorker: {},
-    workersIsLoading : false,
+    workersIsLoading: false,
 };
 
 function getCurrentAge(date) {
@@ -40,7 +40,7 @@ export const tableReducer = (state = initialState, action) => {
                 )
             };
         case SET_WORKERS:
-            return  {...state, workers: action.payload};
+            return {...state, workers: action.payload};
         case WORKERS_IS_LOADING:
             return {...state, workersIsLoading: action.payload};
         default:
@@ -78,10 +78,10 @@ export const addWorkerThunk = (worker) => async dispatch => {
 };
 export const requestWorkersThunk = () => async dispatch => {
     dispatch(workersIsLoading(true));
-const workers = [];
+    const workers = [];
     let data = await workersAPI.requestUsers();
-    for(let worker in data) {
-        if(data.hasOwnProperty(worker)) {
+    for (let worker in data) {
+        if (data.hasOwnProperty(worker)) {
             workers.push(data[worker]);
         }
     }
